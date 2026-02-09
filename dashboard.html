@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Dashboard & Quiz</title>
+</head>
+<body>
+    <h2>🌤 Weather Dashboard</h2>
+
+    <!-- WEATHER FORM -->
+    <form method="POST">
+        <input type="text" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
+
+        {% if weather %}
+            <h3>Weather in {{ weather.city }}</h3>
+            <p>Temperature: {{ weather.temperature }} °C</p>
+            <p>Humidity: {{ weather.humidity }} %</p>
+            <p>Description: {{ weather.description }}</p>
+        {% endif %}
+
+        {% if error %}
+            <p style="color:red">{{ error }}</p>
+        {% endif %}
+
+        <hr>
+
+        <!-- QUIZ SECTION -->
+        <h2>📝 Weather Quiz</h2>
+
+        {% for question in quiz_questions %}
+          {% set q_index = loop.index0 %}
+
+            <p> {{question.question}} </p> 
+
+              {% for option in question.options %}
+              <label>
+                <input type="radio"
+                    name="q{{q_index }}"
+                    value="{{ option }}">
+                           {{option}}
+                    </label></br>
+            {% endfor %}
+        {% endfor %}
+
+        <button type="submit">Submit Quiz & Weather</button>
+    </form>
+
+    {% if score is not none %}
+        <h3>✅ Your Score: {{ score }} / {{ quiz_questions|length }}</h3>
+    {% endif %}
+</body>
+</html>
